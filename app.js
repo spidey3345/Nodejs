@@ -2,16 +2,26 @@ const express = require("express")
 const connectToDb = require("./database/databseConnection")
 const Blog = require("./model/blogmodel")
 const app = express()
+// const multer = require("./middleware.multiConfig").multer
+
+const {multer,storage} = require('./middleware/multerConfig')
+const upload = multer({storage:storage})
+
+
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 connectToDb()
 Blog
 
-
+app.use(express.static("./storage"))
 app.set('view engine', 'ejs')
 
-app.get("/", (req,res)=>{
-    res.send("<h1>haha, this is about page</h1>")
+app.get("/", async(req,res)=>{
+    const blogs = await Blog.find()//always returns array
+    if(blogs.length === 0){
+    console.log("nothing is found")
+    }
+    res.render("./blog/home" , {blogs})
 })
 
 app.get("/about", (req,res) => {
@@ -28,11 +38,13 @@ app.get("/createblog", (req,res)=> {
     res.render("./blog/create.ejs")
 })
 
-app.post("/createblog",async(req,res) => {
+app.post("/createblog",upload.single('image') ,async(req,res) => {
     // const title = req.body.title
     // const subtitle = req.body.subtitle
     // const description = req.body.description
-    const{title, subtitle ,description} = req.body
+    const filename = req.file.filename;
+    console.log(filename)
+    const{title, subtitle ,description,image} = req.body
     console.log(title,subtitle,description)
 
     await Blog.create({
@@ -42,7 +54,8 @@ app.post("/createblog",async(req,res) => {
         //  subtitle,
         title : title,
         subtitle : subtitle,
-        description : description
+        description : description,
+        image : filename
     })
 
     res.send("Blog Created Successfully")
