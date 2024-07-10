@@ -11,7 +11,6 @@ const upload = multer({storage:storage})
 app.use(express.json())
 app.use(express.urlencoded({extended : true}))
 connectToDb()
-Blog
 
 app.use(express.static("./storage"))
 app.set('view engine', 'ejs')
@@ -21,12 +20,29 @@ app.get("/", async(req,res)=>{
     if(blogs.length === 0){
     console.log("nothing is found")
     }
-    res.render("./blog/home" , {blogs})
+    res.render("./blog/home.ejs" , {blogs})
 })
 
 app.get("/about", (req,res) => {
     const name = "Anurag sharma"
     res.render("about.ejs" , {name:name})
+})
+
+app.get("/blog/:id",async (req,res)=>{
+    // console.log(req.params.id)
+    const id = req.params.id
+    const blog = await Blog.findById(id)
+    res.render("./blog/singleblog",{blog})
+})
+app.get("/deleteblog/:id" ,async (req,res)=>{
+    const  id =req.params.id
+   await Blog.findByIdAndDelete(req.params.id)
+   res.redirect("/")
+})
+app.get("/editblog/:id",async(req,res)=>{
+    const id= req.params.id
+    const blog = await Blog.findById(id)
+    res.render("./blog/editblog",{blog})
 })
 
 app.get("/contact", (req,res)=>{

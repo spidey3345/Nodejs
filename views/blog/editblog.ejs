@@ -81,16 +81,16 @@
         <a href="/about">About</a>
     </div>
     <div class="container">
-        <h1>Create a Blog Post</h1>
+        <h1>Edit a Blog Post</h1>
         <form action="/createblog" method="post" enctype="multipart/form-data">
             <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
+            <input type="text" id="title" name="title" value="<%- blog.title %>" required>
             
             <label for="subtitle">Subtitle:</label>
-            <input type="text" id="subtitle" name="subtitle" required>
+            <input type="text" id="subtitle" name="subtitle" value="<%- blog.subtitle %>" required>
             
             <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="5" required></textarea>
+            <textarea id="description" name="description" rows="5" aria-valuetext="" required></textarea>
             
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" accept="image/*" required>

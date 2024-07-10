@@ -72,7 +72,10 @@
     <% blogs.forEach((blog)=>{ %>
         <div class="card" >
             <img src="<%- blog.image %>" alt="Card Image">
+            <div>
             <div class="title"><%- blog.title %></div>
+            <div><a href="/blog/<%-blog._id %>"> see more </a></div>
+            </div>
         </div>
     <% }) %>
    </div>
