@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create a Blog Post</title>
+    <title>Edit a Blog Post</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -82,7 +82,7 @@
     </div>
     <div class="container">
         <h1>Edit a Blog Post</h1>
-        <form action="/createblog" method="post" enctype="multipart/form-data">
+        <form action="/editblog/<%- blog._id %>" method="post">
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" value="<%- blog.title %>" required>
             
@@ -90,7 +90,7 @@
             <input type="text" id="subtitle" name="subtitle" value="<%- blog.subtitle %>" required>
             
             <label for="description">Description:</label>
-            <textarea id="description" name="description" rows="5" aria-valuetext="" required></textarea>
+            <textarea id="description" name="description" rows="5" aria-valuetext="" required><%- blog.description %></textarea>
             
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
